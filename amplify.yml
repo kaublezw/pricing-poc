@@ -1,10 +1,9 @@
 version: 1
 frontend:
-  baseDirectory: pricing-poc-demo
   phases:
     preBuild:
       commands:
-        - npm ci --cache .npm --prefer-offline
+        - npm ci
     build:
       commands:
         - npm run build -- --output-path=dist/coreui-free-angular-admin-template
@@ -14,7 +13,7 @@ frontend:
       - '**/*'
   cache:
     paths:
-      - .npm/**/*
+      - node_modules/**/*
 redirects:
   - source: '</^((?!\.).)*$/>'
     target: /index.html
