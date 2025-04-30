@@ -2,6 +2,7 @@ import { DOCUMENT, NgStyle } from '@angular/common';
 import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChartOptions } from 'chart.js';
+import Chart from 'chart.js/auto';
 import {
   AvatarComponent,
   ButtonDirective,
@@ -41,9 +42,9 @@ interface IUser {
 }
 
 @Component({
-    templateUrl: 'dashboard.component.html',
-    styleUrls: ['dashboard.component.scss'],
-    imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
+  templateUrl: 'dashboard.component.html',
+  styleUrls: ['dashboard.component.scss'],
+  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
 })
 export class DashboardComponent implements OnInit {
 
@@ -148,6 +149,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.updateChartOnColorModeChange();
+
+    // 👉 Add my custom charts
+    this.buildSalesGpTrendChart();
+    this.buildVolumeForecastChart();
   }
 
   initCharts(): void {
@@ -185,5 +190,47 @@ export class DashboardComponent implements OnInit {
         this.mainChartRef().update();
       });
     }
+  }
+
+
+  buildSalesGpTrendChart() {
+    new Chart('salesGpTrendChart', {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Sales ($)',
+            data: [300000, 320000, 400000, 450000, 500000, 480000],
+            borderColor: 'blue',
+            fill: false
+          },
+          {
+            label: 'Gross Profit ($)',
+            data: [120000, 125000, 160000, 180000, 190000, 200000],
+            borderColor: 'green',
+            fill: false
+          }
+        ]
+      }
+    });
+  }
+
+  buildVolumeForecastChart() {
+    new Chart('volumeForecastChart', {
+      type: 'line',
+      data: {
+        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            label: 'Forecasted Volume (Units)',
+            data: [45000, 48000, 50000, 52000, 55000, 60000],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            fill: true
+          }
+        ]
+      }
+    });
   }
 }
