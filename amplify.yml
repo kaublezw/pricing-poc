@@ -1,0 +1,20 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build -- --output-path=dist/coreui-free-angular-admin-template
+  artifacts:
+    baseDirectory: dist/coreui-free-angular-admin-template
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+redirects:
+  - source: '</^((?!\.).)*$/>'
+    target: /index.html
+    status: 200
